@@ -22,7 +22,7 @@ jobs:
       working-directory: Useful.WeatherForecast
     - name: Build
       run: dotnet build --no-restore
-      working-directory: WPFCryptocurrencyRates
+      working-directory: Useful.WeatherForecast
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: Useful.WeatherForecast

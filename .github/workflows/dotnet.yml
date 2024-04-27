@@ -26,3 +26,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: src/weather-service/Useful.WeatherForecast
+    - name: Publish Release
+      id: publish-release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          src/weather-service/Useful.WeatherForecast/bin/Release/**
+        token: ${{ secrets.GITHUB_TOKEN }}

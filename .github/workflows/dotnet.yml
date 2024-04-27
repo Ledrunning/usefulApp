@@ -26,6 +26,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: src/weather-service/Useful.WeatherForecast
+    - name: Create Release Tag
+      run: git tag -a v1.0 -m "Version 1.0"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish Release
       id: publish-release
       uses: softprops/action-gh-release@v1

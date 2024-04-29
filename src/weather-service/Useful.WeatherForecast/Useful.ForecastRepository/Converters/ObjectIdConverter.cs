@@ -8,7 +8,7 @@ namespace Useful.ForecastRepository.Converters
     {
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            if (value.GetType().IsArray)
+            if (value != null && value.GetType().IsArray)
             {
                 writer.WriteStartArray();
                 foreach (var item in (Array) value) serializer.Serialize(writer, item);
@@ -16,7 +16,7 @@ namespace Useful.ForecastRepository.Converters
             }
             else
             {
-                serializer.Serialize(writer, value.ToString());
+                serializer.Serialize(writer, value?.ToString());
             }
         }
 

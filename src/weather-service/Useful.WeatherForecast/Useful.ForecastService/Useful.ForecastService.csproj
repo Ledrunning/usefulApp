@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Useful.ForecastCommon\Useful.ForecastCommon.csproj" />
+    <ProjectReference Include="..\Useful.ForecastRepository\Useful.ForecastRepository.csproj" />
   </ItemGroup>
 
 </Project>

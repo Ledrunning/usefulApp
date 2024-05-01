@@ -1,0 +1,4 @@
+API
+Openweather 2.5: https://openweathermap.org/api/one-call-api
+Carbon Interface: https://docs.carboninterface.com/#/
+Non-Working Days: https://www.isdayoff.ru/

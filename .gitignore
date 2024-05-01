@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/src/weather-service/Useful.WeatherForecast/Useful.ForecastGateway/appsettings.Development.json

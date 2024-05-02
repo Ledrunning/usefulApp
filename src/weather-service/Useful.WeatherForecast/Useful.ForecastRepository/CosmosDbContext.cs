@@ -1,4 +1,6 @@
 ﻿using MongoDB.Driver;
+using Useful.ForecastCommon.Contract;
+using Useful.ForecastDomain.Entities;
 
 namespace Useful.ForecastRepository
 {
@@ -10,13 +12,14 @@ namespace Useful.ForecastRepository
     public class CosmosDbContext : ICosmosDbContext
     {
         private IMongoClient _client;
-        private readonly string _connectionString;
+        private readonly string? _connectionString;
         private IMongoDatabase _database;
-        private readonly string _databaseName;
+        private readonly string? _databaseName;
 
-        public CosmosDbContext(object configuration)
+        public CosmosDbContext(IForecastGatewayConfiguration configuration)
         {
-            
+            _connectionString = configuration.DbConnectionString;
+            _databaseName = configuration.DbName;
         }
 
         /// <inheritdoc cref="ICosmosDbContext" />
@@ -37,7 +40,7 @@ namespace Useful.ForecastRepository
         }
 
         /// <inheritdoc cref="ICosmosDbContext" />
-        public async Task InsertDataAsync(object item)
+        public async Task InsertDataAsync(Weather item)
         {
             try
             {
@@ -51,24 +54,25 @@ namespace Useful.ForecastRepository
         }
         
         /// <inheritdoc cref="ICosmosDbContext" />
-        public async Task<object> GetCollectionByKeyAsync(Guid companyId)
+        public async Task<Weather> GetCollectionByKeyAsync(Guid weatherId)
         {
-            object recordItem;
+            Weather recordItem;
             try
             {
-                //recordItem = await GetCollection().FindAsync(x => x.Id == companyId).Result.FirstAsync();
+                recordItem = await GetCollection().FindAsync(x => x.Id == weatherId).Result.FirstAsync();
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Error when get collection from DB by company id: {companyId}", e);
+                throw new InvalidOperationException($"Error when get collection from DB by company id: {weatherId}", e);
             }
 
-            return null; // recordItem;
+            return recordItem;
         }
 
-        private IMongoCollection<object> GetCollection()
+        //TODO need to put the name into the method !!!!!
+        private IMongoCollection<Weather> GetCollection()
         {
-            return _database.GetCollection<object>("");
+            return _database.GetCollection<Weather>("");
         }
     }
 }

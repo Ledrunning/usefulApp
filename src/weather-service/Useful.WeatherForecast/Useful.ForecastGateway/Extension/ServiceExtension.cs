@@ -11,7 +11,7 @@ public static class ServiceExtension
     public static void ConfigureServices(this IServiceCollection service)
     {
         service.AddTransient<ICosmosDbContext, CosmosDbContext>();
-        service.AddTransient<IForecastGatewayConfiguration, ForecastGatewayConfiguration>();
+        service.AddSingleton<IForecastGatewayConfiguration, ForecastGatewayConfiguration>();
         service.AddTransient<IOpenWeatherGeoRestService, OpenWeatherRestGeoService>();
         service.AddTransient<IOpenWeatherRestService, OpenWeatherRestService>();
     }

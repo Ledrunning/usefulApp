@@ -1,10 +1,13 @@
+using Useful.ForecastGateway.Extension;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.ConfigureSettings(builder.Configuration);
+builder.Services.ConfigureServices();
 
 var app = builder.Build();
 

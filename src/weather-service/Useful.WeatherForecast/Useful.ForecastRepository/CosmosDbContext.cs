@@ -16,7 +16,7 @@ namespace Useful.ForecastRepository
         private IMongoDatabase _database;
         private readonly string? _databaseName;
 
-        public CosmosDbContext(IForecastGatewayConfiguration configuration)
+        public CosmosDbContext(IDatabaseConfiguration configuration)
         {
             _connectionString = configuration.DbConnectionString;
             _databaseName = configuration.DbName;

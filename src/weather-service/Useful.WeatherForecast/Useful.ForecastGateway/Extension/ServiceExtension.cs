@@ -12,6 +12,7 @@ public static class ServiceExtension
     {
         service.AddTransient<ICosmosDbContext, CosmosDbContext>();
         service.AddTransient<IForecastGatewayConfiguration, ForecastGatewayConfiguration>();
+        service.AddTransient<IOpenWeatherGeoRestService, OpenWeatherRestGeoService>();
         service.AddTransient<IOpenWeatherRestService, OpenWeatherRestService>();
     }
 }

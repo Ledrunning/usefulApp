@@ -1,4 +1,5 @@
-﻿using Useful.ForecastCommon.Contract;
+﻿using MongoDB.Driver;
+using Useful.ForecastCommon.Contract;
 using Useful.ForecastGateway.Configuration;
 using Useful.ForecastRepository;
 using Useful.ForecastService.Contracts;
@@ -8,9 +9,12 @@ namespace Useful.ForecastGateway.Extension;
 
 public static class ServiceExtension
 {
-    public static void ConfigureServices(this IServiceCollection service)
+    public static void ConfigureServices(this IServiceCollection service, IForecastGatewayConfiguration config)
     {
         service.AddTransient<ICosmosDbContext, CosmosDbContext>();
+
+        service.AddSingleton(_ => new MongoClient(config.DbConnectionString));
+
         service.AddSingleton<IForecastGatewayConfiguration, ForecastGatewayConfiguration>();
         service.AddTransient<IOpenWeatherGeoRestService, OpenWeatherRestGeoService>();
         service.AddTransient<IOpenWeatherRestService, OpenWeatherRestService>();

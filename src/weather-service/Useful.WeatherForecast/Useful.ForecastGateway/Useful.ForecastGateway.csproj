@@ -14,11 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Useful.ForecastCommon\Useful.ForecastCommon.csproj" />
+    <ProjectReference Include="..\Useful.ForecastRepository\Useful.ForecastRepository.csproj" />
+    <ProjectReference Include="..\Useful.ForecastService\Useful.ForecastService.csproj" />
   </ItemGroup>
 
 </Project>

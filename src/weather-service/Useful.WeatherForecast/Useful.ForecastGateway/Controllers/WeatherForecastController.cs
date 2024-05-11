@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Useful.ForecastService.Contracts;
+using Useful.ForecastService.Models;
 
 namespace Useful.ForecastGateway.Controllers
 {
@@ -6,28 +8,18 @@ namespace Useful.ForecastGateway.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+       private readonly IOpenWeatherRestService _forecastService;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(IOpenWeatherRestService forecastService)
         {
-            _logger = logger;
+            _forecastService = forecastService;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet]
+        [Route(nameof(GetWeather))]
+        public async Task<MainWeather> GetWeather(string city, CancellationToken token)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return await _forecastService.GetWeatherFromOpenWeatherApi(city, token);
         }
     }
 }

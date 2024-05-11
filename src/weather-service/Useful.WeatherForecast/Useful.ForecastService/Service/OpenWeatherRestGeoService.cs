@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using Useful.ForecastCommon.Contract;
 using Useful.ForecastService.Contracts;
 using Useful.ForecastService.Models.GeoApiModel;
 
@@ -6,13 +7,13 @@ namespace Useful.ForecastService.Service;
 
 public class OpenWeatherRestGeoService : BaseService, IOpenWeatherGeoRestService
 {
-    private readonly string _apiKey;
+    private readonly string? _apiKey;
     private readonly int _cityLimit;
 
-    public OpenWeatherRestGeoService(string apiKey, string baseUrl, int cityLimit, int timeout) : base(baseUrl, timeout)
+    public OpenWeatherRestGeoService(IForecastGatewayConfiguration configuration) : base(configuration)
     {
-        _apiKey = apiKey;
-        _cityLimit = cityLimit;
+        _apiKey = configuration.ApiKey;
+        _cityLimit = configuration.GeoCityLimit;
     }
 
     //http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}

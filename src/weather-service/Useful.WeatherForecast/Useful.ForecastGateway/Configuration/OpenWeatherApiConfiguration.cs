@@ -1,6 +1,8 @@
-﻿namespace Useful.ForecastGateway.Configuration;
+﻿using Useful.ForecastCommon.Contract;
 
-public class OpenWeatherApi
+namespace Useful.ForecastGateway.Configuration;
+
+public class OpenWeatherApiConfiguration : IOpenWeatherApiConfiguration
 {
     public static readonly string Configuration = "OpenWeatherApi";
 

@@ -1,11 +1,13 @@
-﻿namespace Useful.ForecastRepository
+﻿using Useful.ForecastDomain.Entities;
+
+namespace Useful.ForecastRepository
 {
     public interface ICosmosDbContext
     {
         void Initialize();
 
-        Task InsertDataAsync(object item);
+        Task InsertDataAsync(Weather item);
 
-        Task<object> GetCollectionByKeyAsync(Guid companyId);
+        Task<Weather> GetCollectionByKeyAsync(Guid companyId);
     }
 }

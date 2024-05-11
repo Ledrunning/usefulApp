@@ -16,7 +16,7 @@ public class CosmosDbContext : ICosmosDbContext
     private readonly IMongoClient? _client;
     private IMongoDatabase _database;
 
-    public CosmosDbContext(IMongoClient? client, IDatabaseConfiguration? configuration)
+    public CosmosDbContext(IMongoClient? client, IForecastGatewayConfiguration? configuration)
     {
         _client = client;
         _connectionString = configuration?.DbConnectionString;

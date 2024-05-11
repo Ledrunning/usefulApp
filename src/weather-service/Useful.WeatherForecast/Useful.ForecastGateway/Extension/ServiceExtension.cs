@@ -9,12 +9,9 @@ namespace Useful.ForecastGateway.Extension;
 
 public static class ServiceExtension
 {
-    public static void ConfigureServices(this IServiceCollection service, IForecastGatewayConfiguration config)
+    public static void ConfigureServices(this IServiceCollection service)
     {
-        service.AddTransient<ICosmosDbContext, CosmosDbContext>();
-
-        service.AddSingleton(_ => new MongoClient(config.DbConnectionString));
-
+        service.AddSingleton<ICosmosDbContext, CosmosDbContext>();
         service.AddSingleton<IForecastGatewayConfiguration, ForecastGatewayConfiguration>();
         service.AddTransient<IOpenWeatherGeoRestService, OpenWeatherRestGeoService>();
         service.AddTransient<IOpenWeatherRestService, OpenWeatherRestService>();

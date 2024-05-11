@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using RestSharp;
+using Useful.ForecastCommon.Contract;
 using Useful.ForecastService.Contracts;
 using Useful.ForecastService.Models;
 
@@ -7,17 +8,14 @@ namespace Useful.ForecastService.Service;
 
 public class OpenWeatherRestService : BaseService, IOpenWeatherRestService
 {
-    private readonly string _apiKey;
     private readonly IOpenWeatherGeoRestService _geoRestService;
     private readonly ILogger<OpenWeatherRestService> _logger;
 
-    //TODO: Probably I could put here config abstraction
     public OpenWeatherRestService(ILogger<OpenWeatherRestService> logger, IOpenWeatherGeoRestService geoRestService,
-        string apiKey, string baseUrl, int timeout)
-        : base(baseUrl, timeout)
+        IForecastGatewayConfiguration configuration)
+        : base(configuration)
     {
         _geoRestService = geoRestService;
-        _apiKey = apiKey;
         _logger = logger;
     }
 
@@ -29,7 +27,7 @@ public class OpenWeatherRestService : BaseService, IOpenWeatherRestService
             var cityInfoList = await _geoRestService.GetCityCoordinates(city, token);
             var cityInfo = cityInfoList.Select(data => data).FirstOrDefault();
 
-            var url = new Uri($"{BaseUrl}lat={cityInfo?.Lat}&lon={cityInfo?.Lon}&appid={_apiKey}");
+            var url = new Uri($"{BaseUrl}lat={cityInfo?.Lat}&lon={cityInfo?.Lon}&appid={ApiKey}");
             var client = new RestClient(SetOptions(url));
             var request = new RestRequest();
             var response = await client.ExecuteAsync(request, token);

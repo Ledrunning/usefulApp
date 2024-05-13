@@ -10,6 +10,8 @@ builder.Services.ConfigureSettings(builder.Configuration);
 builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.ConfigureServices();
 
+builder.ConfigureHangFire();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

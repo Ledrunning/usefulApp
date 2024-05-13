@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Useful.ForecastTaskScheduler
 {
-    internal class ForecastDataUploader
+    public class ForecastDataUploader
     {
     }
 }

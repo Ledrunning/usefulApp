@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using Useful.ForecastCommon.Contract;
 using Useful.ForecastCommon.Exception;
 
 namespace Useful.ForecastService.Service;
@@ -7,12 +8,14 @@ namespace Useful.ForecastService.Service;
 public class BaseService
 {
     private readonly int _timeout;
-    protected readonly string BaseUrl;
+    protected readonly string? BaseUrl;
+    protected readonly string? ApiKey;
 
-    public BaseService(string baseUrl, int timeout)
+    public BaseService(IForecastGatewayConfiguration configuration)
     {
-        BaseUrl = baseUrl;
-        _timeout = timeout;
+        BaseUrl = configuration.BaseUrl;
+        _timeout = configuration.TimeOut;
+        ApiKey = configuration.ApiKey;
     }
 
     protected T GetContent<T>(RestResponseBase response, string url)

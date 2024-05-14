@@ -11,16 +11,31 @@ namespace Useful.ForecastRepository;
 /// </summary>
 public class CosmosDbContext : ICosmosDbContext
 {
-    private readonly string? _connectionString;
-    private readonly string? _databaseName;
     private readonly IMongoClient? _client;
-    private IMongoDatabase _database;
+    private readonly string? _databaseName;
+    private IMongoDatabase? _database;
 
-    public CosmosDbContext(IMongoClient? client, IForecastGatewayConfiguration? configuration)
+    public CosmosDbContext(IMongoClient? client, IDatabaseConfiguration? configuration)
     {
-        _client = client;
-        _connectionString = configuration?.DbConnectionString;
-        _databaseName = configuration?.DbName;
+        if (configuration == null)
+        {
+            throw new ArgumentNullException(nameof(configuration));
+        }
+
+        if (string.IsNullOrEmpty(configuration.DbConnectionString))
+        {
+            throw new ArgumentException("Database connection string cannot be null or empty.",
+                nameof(configuration.DbConnectionString));
+        }
+
+        if (string.IsNullOrEmpty(configuration.DbName))
+        {
+            throw new ArgumentException("Database name cannot be null or empty.", nameof(configuration.DbName));
+        }
+
+        _databaseName = configuration.DbName;
+        _client = new MongoClient(configuration.DbConnectionString);
+        _database = _client.GetDatabase(_databaseName);
     }
 
     /// <inheritdoc cref="ICosmosDbContext" />
@@ -29,7 +44,7 @@ public class CosmosDbContext : ICosmosDbContext
         try
         {
             //Get or create database
-            _database = _client.GetDatabase(_databaseName);
+            _database = _client?.GetDatabase(_databaseName);
             //_database.CreateCollectionAsync(nameof());
         }
         catch (Exception e)
@@ -61,7 +76,7 @@ public class CosmosDbContext : ICosmosDbContext
         }
         catch (Exception e)
         {
-            throw new InvalidOperationException($"Error when get collection from DB by company id: {weatherId}", e);
+            throw new InvalidOperationException($"Error when getting collection from DB by weather id: {weatherId}", e);
         }
 
         return recordItem;
@@ -70,6 +85,11 @@ public class CosmosDbContext : ICosmosDbContext
     //TODO need to put the name into the method !!!!!
     private IMongoCollection<Weather> GetCollection()
     {
-        return _database.GetCollection<Weather>("");
+        if (_database == null)
+        {
+            throw new InvalidOperationException("Database is not initialized.");
+        }
+
+        return _database.GetCollection<Weather>("WeatherCollectionName"); // Use the actual collection name here
     }
 }

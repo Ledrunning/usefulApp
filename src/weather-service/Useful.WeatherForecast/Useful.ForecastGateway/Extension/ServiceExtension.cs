@@ -7,6 +7,7 @@ using Useful.ForecastRepository;
 using Useful.ForecastService.Contracts;
 using Useful.ForecastService.Service;
 using Useful.ForecastTaskScheduler;
+using Microsoft.Extensions.Configuration;
 
 namespace Useful.ForecastGateway.Extension;
 
@@ -23,14 +24,14 @@ public static class ServiceExtension
         service.AddTransient<ForecastScheduler>();
     }
 
-    // TODO OSM: you should use Database!
-    public static void ConfigureHangFire(this WebApplicationBuilder builder)
+    public static void ConfigureHangFire(this WebApplicationBuilder builder, IConfiguration configuration)
     {
+        var dbConfig = configuration.GetSection(DatabaseConfiguration.Configuration).Get<DatabaseConfiguration>();
         builder.Services.AddHangfire(config => config
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
             .UseSimpleAssemblyNameTypeSerializer()
-            .UseRecommendedSerializerSettings());
-//            .UseMemoryStorage());
+            .UseRecommendedSerializerSettings()
+            .UseSqlServerStorage(dbConfig?.HangFireDbConnectionString));
 
         builder.Services.AddSingleton<IDashboardAuthorizationFilter, HangfireAuthorizationFilter>();
         builder.Services.AddHangfireServer();

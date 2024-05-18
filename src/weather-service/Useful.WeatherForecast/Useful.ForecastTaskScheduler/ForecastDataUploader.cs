@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Useful.ForecastService.Contracts;
+﻿using Useful.ForecastService.Contracts;
 
-namespace Useful.ForecastTaskScheduler
+namespace Useful.ForecastTaskScheduler;
+
+public class ForecastDataUploader
 {
-    public class ForecastDataUploader
+    private readonly IOpenWeatherRestService _forecastService;
+
+    public ForecastDataUploader(IOpenWeatherRestService forecastService)
     {
-        private readonly IOpenWeatherRestService _forecastService;
+        _forecastService = forecastService;
+    }
 
-        public ForecastDataUploader(IOpenWeatherRestService forecastService)
-        {
-            _forecastService = forecastService;
-        }
-
-        public async Task UploadForecastData(CancellationToken token)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task UploadForecastData(CancellationToken token)
+    {
+        throw new NotImplementedException();
     }
 }

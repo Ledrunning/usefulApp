@@ -7,5 +7,6 @@ namespace Useful.ForecastGateway.Configuration
         public static readonly string Configuration = "DatabaseConfiguration";
         public string? DbConnectionString { get; set; }
         public string? DbName { get; set; }
+        public string? HangFireDbConnectionString { get; set; }
     }
 }

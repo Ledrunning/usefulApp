@@ -1,5 +1,5 @@
-﻿using Hangfire.Dashboard;
-using Hangfire;
+﻿using Hangfire;
+using Hangfire.Dashboard;
 using Useful.ForecastCommon.Contract;
 using Useful.ForecastGateway.Configuration;
 using Useful.ForecastGateway.Hangfire;
@@ -7,7 +7,6 @@ using Useful.ForecastRepository;
 using Useful.ForecastService.Contracts;
 using Useful.ForecastService.Service;
 using Useful.ForecastTaskScheduler;
-using Microsoft.Extensions.Configuration;
 
 namespace Useful.ForecastGateway.Extension;
 
@@ -19,7 +18,7 @@ public static class ServiceExtension
         service.AddSingleton<ICosmosDbContext, CosmosDbContext>();
         service.AddTransient<IOpenWeatherGeoRestService, OpenWeatherRestGeoService>();
         service.AddTransient<IOpenWeatherRestService, OpenWeatherRestService>();
-        //Configure task scheduler
+        // Configure task scheduler
         service.AddTransient<ForecastDataUploader>();
         service.AddTransient<ForecastScheduler>();
     }

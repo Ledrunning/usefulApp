@@ -11,12 +11,18 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Useful.ForecastCommon\Useful.ForecastCommon.csproj" />
     <ProjectReference Include="..\Useful.ForecastRepository\Useful.ForecastRepository.csproj" />
     <ProjectReference Include="..\Useful.ForecastService\Useful.ForecastService.csproj" />
+    <ProjectReference Include="..\Useful.ForecastTaskScheduler\Useful.ForecastTaskScheduler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Hangfire\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
-﻿using Useful.ForecastDomain.Entities;
-using Useful.ForecastRepository;
+﻿using Useful.ForecastRepository;
+using Useful.ForecastService;
 using Useful.ForecastService.Contracts;
 
 namespace Useful.ForecastTaskScheduler;
@@ -15,13 +15,13 @@ public class ForecastDataUploader
         _dbContext = dbContext;
     }
 
-    //TODO: think about it
-    public async Task UploadForecastData(CancellationToken token)
+    public async Task UploadForecastData(string city, CancellationToken token)
     {
-        var result = await _forecastService.GetWeatherFromOpenWeatherApi("Berlin", token);
-        await _dbContext.InsertDataAsync(new Weather()
-        {
+        var result = await _forecastService.GetWeatherFromOpenWeatherApi(city, token);
 
-        });
+        if (result.Main != null)
+        {
+            await _dbContext.InsertDataAsync(WeatherMapper.MapToWeather(result.Main));
+        }
     }
 }

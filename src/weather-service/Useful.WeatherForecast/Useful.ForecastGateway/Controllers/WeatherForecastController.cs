@@ -21,5 +21,12 @@ namespace Useful.ForecastGateway.Controllers
         {
             return await _forecastService.GetWeatherFromOpenWeatherApi(city, token);
         }
+
+        [HttpGet]
+        [Route(nameof(GetSavedWeatherByDateTime))]
+        public async Task<MainWeather> GetSavedWeatherByDateTime(string dateTime, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

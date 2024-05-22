@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Useful.ForecastCommon.Contract;
 using Useful.ForecastGateway.Configuration;
 
 namespace Useful.ForecastGateway.Extension
@@ -9,17 +10,12 @@ namespace Useful.ForecastGateway.Extension
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.Configure<DatabaseConfiguration>(configuration.GetSection(nameof(DatabaseConfiguration)));
-            services.AddSingleton<IMongoClient>(provider =>
-            {
-                var dbConfig = provider.GetRequiredService<IOptions<DatabaseConfiguration>>().Value;
-                var connectionString = dbConfig.DbConnectionString;
-                if (string.IsNullOrEmpty(connectionString))
-                {
-                    throw new InvalidOperationException("Database connection string is not configured.");
-                }
-                return new MongoClient(connectionString);
-            });
+            services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseConfiguration.Configuration));
+            services.AddSingleton<IDatabaseConfiguration>(sp =>
+                sp.GetRequiredService<IOptions<DatabaseConfiguration>>().Value);
+
+            var dbConfig = configuration.GetSection(DatabaseConfiguration.Configuration).Get<DatabaseConfiguration>();
+            services.AddSingleton<IMongoClient>(_ => new MongoClient(dbConfig?.DbConnectionString));
         }
     }
 }

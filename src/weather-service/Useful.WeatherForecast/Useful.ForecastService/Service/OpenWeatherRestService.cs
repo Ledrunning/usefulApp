@@ -11,6 +11,8 @@ public class OpenWeatherRestService : BaseService, IOpenWeatherRestService
     private readonly IOpenWeatherGeoRestService _geoRestService;
     private readonly ILogger<OpenWeatherRestService> _logger;
 
+    public string Location { get; set; }
+
     public OpenWeatherRestService(ILogger<OpenWeatherRestService> logger, IOpenWeatherGeoRestService geoRestService,
         IForecastGatewayConfiguration configuration)
         : base(configuration)
@@ -24,6 +26,7 @@ public class OpenWeatherRestService : BaseService, IOpenWeatherRestService
     {
         try
         {
+            Location = city;
             var cityInfoList = await _geoRestService.GetCityCoordinates(city, token);
             var cityInfo = cityInfoList.Select(data => data).FirstOrDefault();
 

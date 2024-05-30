@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using Useful.ForecastCommon.Contract;
+using Useful.ForecastCommon.RestService;
 using Useful.ForecastService.Contracts;
 using Useful.ForecastService.Models.GeoApiModel;
 
@@ -25,6 +26,6 @@ public class OpenWeatherRestGeoService : BaseService, IOpenWeatherGeoRestService
         var request = new RestRequest();
         var response = await client.ExecuteAsync(request, token);
 
-        return GetContent<List<GeoData>>(response, url.AbsoluteUri);
+        return GetContent<List<GeoData>>(response);
     }
 }

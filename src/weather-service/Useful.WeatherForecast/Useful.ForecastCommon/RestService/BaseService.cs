@@ -3,7 +3,7 @@ using RestSharp;
 using Useful.ForecastCommon.Contract;
 using Useful.ForecastCommon.Exception;
 
-namespace Useful.ForecastService.Service;
+namespace Useful.ForecastCommon.RestService;
 
 public class BaseService
 {
@@ -18,7 +18,7 @@ public class BaseService
         ApiKey = configuration.ApiKey;
     }
 
-    protected T GetContent<T>(RestResponseBase response, string url)
+    protected T GetContent<T>(RestResponseBase response)
     {
         if (response.IsSuccessful)
         {

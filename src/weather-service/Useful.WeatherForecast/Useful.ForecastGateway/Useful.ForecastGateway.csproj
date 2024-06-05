@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Useful.ForecastCommon\Useful.ForecastCommon.csproj" />
+    <ProjectReference Include="..\Useful.ForecastGeolocationService\Useful.ForecastGeolocationService.csproj" />
     <ProjectReference Include="..\Useful.ForecastRepository\Useful.ForecastRepository.csproj" />
     <ProjectReference Include="..\Useful.ForecastService\Useful.ForecastService.csproj" />
     <ProjectReference Include="..\Useful.ForecastTaskScheduler\Useful.ForecastTaskScheduler.csproj" />

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using RestSharp;
 using Useful.ForecastCommon.Contract;
+using Useful.ForecastCommon.RestService;
 using Useful.ForecastService.Contracts;
 using Useful.ForecastService.Models;
 
@@ -35,7 +36,7 @@ public class OpenWeatherRestService : BaseService, IOpenWeatherRestService
             var request = new RestRequest();
             var response = await client.ExecuteAsync(request, token);
 
-            return GetContent<MainWeather>(response, url.AbsoluteUri);
+            return GetContent<MainWeather>(response);
         }
         catch (Exception e)
         {

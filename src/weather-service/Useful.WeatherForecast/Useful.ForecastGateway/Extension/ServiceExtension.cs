@@ -3,6 +3,8 @@ using Hangfire.Dashboard;
 using Useful.ForecastCommon.Contract;
 using Useful.ForecastGateway.Configuration;
 using Useful.ForecastGateway.Hangfire;
+using Useful.ForecastGeolocationService;
+using Useful.ForecastGeolocationService.Contracts;
 using Useful.ForecastRepository;
 using Useful.ForecastService.Contracts;
 using Useful.ForecastService.Service;
@@ -18,6 +20,7 @@ public static class ServiceExtension
         service.AddSingleton<ICosmosDbContext, CosmosDbContext>();
         service.AddTransient<IOpenWeatherGeoRestService, OpenWeatherRestGeoService>();
         service.AddTransient<IOpenWeatherRestService, OpenWeatherRestService>();
+        service.AddTransient<IGeolocationService, GeolocationService>();
         // Configure task scheduler
         service.AddTransient<ForecastDataUploader>();
         service.AddTransient<ForecastScheduler>();

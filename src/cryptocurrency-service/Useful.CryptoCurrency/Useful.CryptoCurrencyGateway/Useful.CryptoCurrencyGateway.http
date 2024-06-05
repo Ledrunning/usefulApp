@@ -1,0 +1,6 @@
+@Useful.CryptoCurrencyGateway_HostAddress = http://localhost:5079
+
+GET {{Useful.CryptoCurrencyGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -16,6 +16,8 @@ public static class ConfigurationExtension
         var forecastConfig = new ForecastGatewayConfiguration();
         configuration.GetSection(GeolocationConfiguration.Configuration).Bind(forecastConfig);
         configuration.GetSection(OpenWeatherApiConfiguration.Configuration).Bind(forecastConfig);
+        configuration.GetSection(DatabaseConfiguration.Configuration).Bind(forecastConfig);
+        
         service.AddSingleton<IForecastGatewayConfiguration>(forecastConfig);
     }
 }

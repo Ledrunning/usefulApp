@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using RestSharp;
+using Useful.CryptoCurrencyCommon.Contracts;
 using Useful.CryptoCurrencyService.Contracts;
 using Useful.CryptoCurrencyService.Dto;
 
@@ -10,7 +11,7 @@ namespace Useful.CryptoCurrencyService.Services;
 /// </summary>
 public sealed class CryptoCurrencyRatesService : BaseService, ICryptoCurrencyRatesService
 {
-    public CryptoCurrencyRatesService(ILogger<CryptoCurrencyRatesService> logger, string baseUrl, int timeout) : base(logger, baseUrl, timeout)
+    public CryptoCurrencyRatesService(ILogger<CryptoCurrencyRatesService> logger, ICryptoCurrencyGatewayConfiguration configuration) : base(logger, configuration)
     {
     }
     

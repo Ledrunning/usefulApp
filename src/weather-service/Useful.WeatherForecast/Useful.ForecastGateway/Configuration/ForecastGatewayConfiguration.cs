@@ -11,4 +11,6 @@ public class ForecastGatewayConfiguration : IForecastGatewayConfiguration
     public string? ApiKey { get; set; }
     public int TimeOut { get; set; }
     public int GeoCityLimit { get; set; }
+    public string? GeolocationApiKey { get; set; }
+    public string? GeolocationBaseUrl { get; set; }
 }

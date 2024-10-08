@@ -1,21 +1,22 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using RestSharp;
+using Useful.CryptoCurrencyCommon.Contracts;
 using Useful.CryptoCurrencyCommon.Exceptions;
 
 namespace Useful.CryptoCurrencyService.Services;
 
 public class BaseService
 {
-    protected readonly string BaseUrl;
-    private readonly ILogger logger;
-    private readonly int timeout;
+    private readonly ILogger<BaseService> _logger;
+    private readonly int? _timeout;
+    protected readonly string? BaseUrl;
 
-    public BaseService(ILogger<BaseService> logger, string baseUrl, int timeout)
+    public BaseService(ILogger<BaseService> logger, ICryptoCurrencyGatewayConfiguration configuration)
     {
-        this.logger = logger;
-        BaseUrl = baseUrl;
-        this.timeout = timeout;
+        _logger = logger;
+        BaseUrl = configuration.BaseUrl;
+        _timeout = configuration.Timeout;
     }
 
     protected T GetContent<T>(RestResponseBase response, string url)
@@ -25,12 +26,13 @@ public class BaseService
             if (response.Content != null)
             {
                 var model = JsonSerializer.Deserialize<T>(response.Content);
-                logger.LogInformation("Request for Coincap successfully finished {Url}", url);
+                _logger.LogInformation("Request for Coincap successfully finished {Url}", url);
                 if (model != null)
                 {
                     return model;
                 }
-                logger.LogInformation("Requested data from Coincap is null {Url}", url);
+
+                _logger.LogInformation("Requested data from Coincap is null {Url}", url);
             }
         }
 
@@ -43,7 +45,7 @@ public class BaseService
         return new RestClientOptions(url)
         {
             ThrowOnAnyError = true,
-            Timeout = TimeSpan.FromMilliseconds(timeout)
+            Timeout = TimeSpan.FromMilliseconds(_timeout.GetValueOrDefault())
         };
     }
 }

@@ -1,25 +1,57 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.Diagnostics;
+using NLog;
+using NLog.Extensions.Logging;
+using Useful.CryptoCurrencyGateway.Configuration;
+using Useful.CryptoCurrencyService.Contracts;
+using Useful.CryptoCurrencyService.Services;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-// Add services to the container.
+const string LoggerConfig = "NLog.config";
+var logger = LogManager.GetCurrentClassLogger();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var builder = WebApplication.CreateBuilder(args);
+
+    // Add services to the container.
+    builder.Logging.ClearProviders().SetMinimumLevel(LogLevel.Debug).AddNLog(LoggerConfig);
+
+    builder.Services.Configure<ConcapApiConfiguration>(
+        builder.Configuration.GetSection(ConcapApiConfiguration.SectionName));
+
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+    builder.Services.AddLogging();
+
+    builder.Services.AddTransient<ICryptoCurrencyRatesService, CryptoCurrencyRatesService>();
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+        app.UseSwagger();
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CryptoCurrencyAPI v1"));
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception e)
+{
+    var name = typeof(Program).Assembly.GetName().Name;
+    Trace.Write(
+        $"[{DateTime.Now:HH:mm:ss.fff}] Application startup error [{name}]! Details {e.Message}");
+    logger.Fatal(e, $"Application startup error [{name}]");
+}
+finally
+{
+    LogManager.Shutdown();
+}
